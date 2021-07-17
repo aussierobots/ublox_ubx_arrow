@@ -27,7 +27,7 @@ add_library(ublox_ubx_arrow_components SHARED
 target_compile_definitions(ublox_ubx_arrow_components
   PRIVATE "UBLOX_UBX_ARROW_SINK_NODE_BUILDING_DLL"
 )
-target_compile_features(ublox_ubx_arrow_sink_node PUBLIC c_std_99 cxx_std_20)  # Require C99 and C++20
+target_compile_features(ublox_ubx_arrow_components PUBLIC c_std_99 cxx_std_20)  # Require C99 and C++20
 
 ament_target_dependencies(ublox_ubx_arrow_components
   rclcpp
@@ -41,7 +41,7 @@ target_link_libraries(ublox_ubx_arrow_components
   parquet
 )
 
-rclcpp_components_register_node(ublox_ubx_arrow_components PLUGIN "ublox_ubx_arrow::ArrowSinkNode" EXECUTABLE ublox_ubx_arrow_sink_node)
+rclcpp_components_register_node(ublox_ubx_arrow_components PLUGIN "ublox::ubx::ArrowSinkNode" EXECUTABLE ublox_ubx_arrow_sink_node)
 
 install(TARGETS 
   ublox_ubx_arrow_components

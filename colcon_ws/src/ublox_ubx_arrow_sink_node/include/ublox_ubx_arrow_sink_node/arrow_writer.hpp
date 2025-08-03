@@ -67,9 +67,9 @@ namespace ublox::ubx {
   private:
 
     std::vector<typename MessageT::SharedPtr> move_msgs();
-   
+
     arrow::Status build_record_batch(std::shared_ptr<arrow::RecordBatch> * record_batch);
- 
+
     arrow::MemoryPool* get_memory_pool() {
       return arrow::default_memory_pool();
     }
@@ -111,7 +111,7 @@ namespace ublox::ubx {
     size_t n;
     if (active_msq_queue_ ==0)
       n = msgs_0_.size();
-    else 
+    else
       n = msgs_1_.size();
     return n;
   }
@@ -121,7 +121,7 @@ namespace ublox::ubx {
     size_t n;
     if (active_msq_queue_ ==0)
       n = msgs_1_.size();
-    else 
+    else
       n = msgs_0_.size();
     return n;
   }
@@ -158,9 +158,9 @@ namespace ublox::ubx {
 
   template<typename MessageT>
   void ArrowWriter<MessageT>::switch_queues() {
-    if (active_msq_queue_ == 0){ 
+    if (active_msq_queue_ == 0){
       active_msq_queue_ = 1;
-    } else { 
+    } else {
       active_msq_queue_ = 0;
     }
   }
@@ -169,7 +169,7 @@ namespace ublox::ubx {
   std::vector<typename MessageT::SharedPtr> ArrowWriter<MessageT>::move_msgs(){
 
     // whatever is not the active queue, use as the msg source
-    // the queues should have been switched before append 
+    // the queues should have been switched before append
     if (active_msq_queue_ == 0) {
       std::vector<typename MessageT::SharedPtr> msgs(msgs_1_);
       msgs_1_.clear();
@@ -180,7 +180,7 @@ namespace ublox::ubx {
       return msgs;
     }
   }
-      
+
   template <typename MessageT>
   void ArrowWriter<MessageT>::add_msg(typename MessageT::SharedPtr msg) {
     if (active_msq_queue_ == 0)
@@ -194,7 +194,7 @@ namespace ublox::ubx {
     if (switched_msgs_size() == 0) {
       return arrow::Status::OK();
     }
-    
+
     std::shared_ptr<arrow::RecordBatch> record_batch;
     ARROW_RETURN_NOT_OK(build_record_batch(&record_batch));
     record_batches_.push_back(record_batch);
@@ -299,7 +299,7 @@ namespace ublox::ubx {
 
     std::shared_ptr<arrow::Array> itow_array;
     ARROW_RETURN_NOT_OK(itow_builder.Finish(&itow_array));
-    
+
     std::shared_ptr<arrow::Array> lon_array, lat_array, height_array, hmsl_array;
     ARROW_RETURN_NOT_OK(lon_builder.Finish(&lon_array));
     ARROW_RETURN_NOT_OK(lat_builder.Finish(&lat_array));

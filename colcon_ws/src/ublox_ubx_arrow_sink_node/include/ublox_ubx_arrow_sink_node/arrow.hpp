@@ -15,7 +15,7 @@ namespace ublox::ubx {
   const std::string TIMEZONE ("UTC");
   // const arrow::TimeUnit::type TIMEUNIT = arrow::TimeUnit::MICRO;
   const arrow::TimeUnit::type TIMEUNIT = arrow::TimeUnit::NANO;
-  
+
   // https://github.com/ros2/rcl_interfaces/blob/master/builtin_interfaces/msg/Time.msg
   namespace time {
     auto sec = arrow::field("sec", arrow::int32(), false);

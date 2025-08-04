@@ -40,7 +40,7 @@ namespace ublox::ubx {
     auto invalid_lat = arrow::field("invalid_lat", arrow::boolean(), false);
     auto invalid_height = arrow::field("invalid_height", arrow::boolean(), false);
     auto invalid_hmsl = arrow::field("invalid_hmsl", arrow::boolean(), false);
-    auto invalid_lon_hp = arrow::field("invalid_lon_lp", arrow::boolean(), false);
+    auto invalid_lon_hp = arrow::field("invalid_lon_hp", arrow::boolean(), false);
     auto invalid_lat_hp = arrow::field("invalid_lat_hp", arrow::boolean(), false);
     auto invalid_height_hp = arrow::field("invalid_height_hp", arrow::boolean(), false);
     auto invalid_hmsl_hp = arrow::field("invalid_hmsl_hp", arrow::boolean(), false);

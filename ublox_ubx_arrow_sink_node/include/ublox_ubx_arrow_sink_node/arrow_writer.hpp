@@ -9,7 +9,6 @@
 #include <parquet/parquet_version.h>
 #include <chrono>
 #include <vector>
-#include <plasma/client.h>
 #include <unistd.h>
 #include <ctime>
 #include "ublox_ubx_msgs/msg/ubx_nav_hp_pos_llh.hpp"
@@ -341,7 +340,7 @@ namespace ublox::ubx {
 
     // auto parquet_writer = parquet::default_writer_properties();
     auto parquet_writer_builder = parquet::WriterProperties::Builder();
-    parquet_writer_builder.version(parquet::ParquetVersion::PARQUET_2_0);
+    parquet_writer_builder.version(parquet::ParquetVersion::PARQUET_2_LATEST);
     auto parquet_writer = parquet_writer_builder.build();
 
     // auto arrow_properties = parquet::default_arrow_writer_properties();
@@ -364,11 +363,10 @@ namespace ublox::ubx {
   template <typename MessageT>
   arrow::Status ArrowWriter<MessageT>::build_table() {
     auto result = arrow::Table::FromRecordBatches(record_batches_);
-    if (result.ok()) {
-      table_ = std::move(result).ValueOrDie();
-    } else {
+    if (!result.ok()) {
       return result.status();
     }
+    table_ = *std::move(result);
 
     record_batches_.clear();
 

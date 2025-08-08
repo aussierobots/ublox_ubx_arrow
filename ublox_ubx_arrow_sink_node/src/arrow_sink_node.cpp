@@ -126,6 +126,6 @@ private:
     }
   }
 };
-} // end namespace ublox_ubx_arrow
+} // namespace ublox::ubx
 
 RCLCPP_COMPONENTS_REGISTER_NODE(ublox::ubx::ArrowSinkNode)

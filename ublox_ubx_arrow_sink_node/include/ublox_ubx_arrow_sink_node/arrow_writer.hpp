@@ -24,7 +24,7 @@ namespace ublox::ubx {
     std::shared_ptr<arrow::Schema> schema_;
 
     // use two queues - only append to one at a time
-    uint8_t active_msq_queue_;
+    uint8_t active_msg_queue_;
     std::vector<typename MessageT::SharedPtr> msgs_0_;
     std::vector<typename MessageT::SharedPtr> msgs_1_;
 
@@ -43,7 +43,7 @@ namespace ublox::ubx {
       schema_ = schema();
       msgs_0_.clear();
       msgs_1_.clear();
-      active_msq_queue_=0;
+      active_msg_queue_=0;
     }
     std::shared_ptr<arrow::Schema> schema ();
     size_t msgs_size();
@@ -109,7 +109,7 @@ namespace ublox::ubx {
   template <typename MessageT>
   size_t ArrowWriter<MessageT>::msgs_size() {
     size_t n;
-    if (active_msq_queue_ ==0)
+    if (active_msg_queue_ ==0)
       n = msgs_0_.size();
     else 
       n = msgs_1_.size();
@@ -119,7 +119,7 @@ namespace ublox::ubx {
   template <typename MessageT>
   size_t ArrowWriter<MessageT>::switched_msgs_size() {
     size_t n;
-    if (active_msq_queue_ ==0)
+    if (active_msg_queue_ ==0)
       n = msgs_1_.size();
     else 
       n = msgs_0_.size();
@@ -158,10 +158,10 @@ namespace ublox::ubx {
 
   template<typename MessageT>
   void ArrowWriter<MessageT>::switch_queues() {
-    if (active_msq_queue_ == 0){ 
-      active_msq_queue_ = 1;
+    if (active_msg_queue_ == 0){ 
+      active_msg_queue_ = 1;
     } else { 
-      active_msq_queue_ = 0;
+      active_msg_queue_ = 0;
     }
   }
 
@@ -170,7 +170,7 @@ namespace ublox::ubx {
 
     // whatever is not the active queue, use as the msg source
     // the queues should have been switched before append 
-    if (active_msq_queue_ == 0) {
+    if (active_msg_queue_ == 0) {
       std::vector<typename MessageT::SharedPtr> msgs(msgs_1_);
       msgs_1_.clear();
       return msgs;
@@ -183,7 +183,7 @@ namespace ublox::ubx {
       
   template <typename MessageT>
   void ArrowWriter<MessageT>::add_msg(typename MessageT::SharedPtr msg) {
-    if (active_msq_queue_ == 0)
+    if (active_msg_queue_ == 0)
       msgs_0_.push_back(msg);
     else
       msgs_1_.push_back(msg);

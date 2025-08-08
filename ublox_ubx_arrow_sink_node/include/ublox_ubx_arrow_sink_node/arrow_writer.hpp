@@ -237,7 +237,9 @@ namespace ublox::ubx {
     arrow::UInt32Builder v_acc_builder(pool);
 
     for (auto msg: hpposllh_msgs) {
-      int64_t ts_nano = msg->header.stamp.sec * 1e+9 + msg->header.stamp.nanosec;
+      int64_t ts_nano =
+        static_cast<int64_t>(msg->header.stamp.sec) * 1000000000LL +
+        msg->header.stamp.nanosec;
       // int64_t ts_micro = ts_nano / 1e+3;
       // ARROW_RETURN_NOT_OK(timestamp_builder.Append(ts_micro));
       ARROW_RETURN_NOT_OK(timestamp_builder.Append(ts_nano));

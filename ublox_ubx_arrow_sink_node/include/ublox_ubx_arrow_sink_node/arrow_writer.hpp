@@ -169,14 +169,12 @@ namespace ublox::ubx {
   std::vector<typename MessageT::SharedPtr> ArrowWriter<MessageT>::move_msgs(){
 
     // whatever is not the active queue, use as the msg source
-    // the queues should have been switched before append 
+    // the queues should have been switched before append
     if (active_msq_queue_ == 0) {
-      std::vector<typename MessageT::SharedPtr> msgs(msgs_1_);
-      msgs_1_.clear();
+      std::vector<typename MessageT::SharedPtr> msgs(std::move(msgs_1_));
       return msgs;
     } else {
-      std::vector<typename MessageT::SharedPtr> msgs(msgs_0_);
-      msgs_0_.clear();
+      std::vector<typename MessageT::SharedPtr> msgs(std::move(msgs_0_));
       return msgs;
     }
   }

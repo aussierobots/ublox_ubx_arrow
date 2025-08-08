@@ -59,6 +59,16 @@ if(BUILD_TESTING)
   # uncomment the line when this package is not in a git repo
   #set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
+
+  find_package(ament_cmake_gtest REQUIRED)
+  ament_add_gtest(test_arrow_writer test/test_arrow_writer.cpp)
+  target_link_libraries(test_arrow_writer
+    arrow
+    parquet
+  )
+  ament_target_dependencies(test_arrow_writer
+    ublox_ubx_msgs
+  )
 endif()
 
 ament_package()
